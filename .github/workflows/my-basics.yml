@@ -1,20 +1,64 @@
+# Define the name of the workflow
 name: My-GitHubActions-Basics
 
+# Define environment variables
+env:
+  APPLICATION_NAME: "MyFlask" # Define an application name
+  DEPLOY_PACKAGE_NAME: "flask-deploy-ver-${{ github.sha }}" # Define a deployment package name based on the GitHub SHA
+
+# Define triggers for when the workflow should run
 on:
   push:
     branches:
-      - main
+      - main # Run the workflow on pushes to the main branch
 
+# Define individual jobs to be executed
 jobs:
   my_test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Define the operating system to run the job on
     steps:
       - name: Print Hello Message in Test
-        run: echo "Hello World from Test job"
+        run: echo "Hello World from Test job" # Print a hello message for the Test job
+
+      - name: Execute few commands
+        run: |
+          echo "Hello Message1"
+          echo "Hello Message2"
+          echo "Application name: ${{ env.APPLICATION_NAME }}" # Output the application name
+
+      - name: List current folder
+        run: ls -la # List contents of the current folder
+
+      - name: Git clone my repo
+        uses: actions/checkout@v1 # Use the checkout action to clone the repository
+
+      - name: List current folder after checkout
+        run: ls -la # List contents of the current folder after repository checkout
 
   my_deploy:
-    runs-on: ubuntu-latest
-    needs: [my_test]
+    runs-on: ubuntu-latest # Define the operating system to run the job on
+    needs: [my_test] # Define that this job depends on the completion of the my_test job
+    env:
+      VAR1: "This is Job Level Variable1" # Define environment variables for the my_deploy job
+      VAR2: "This is Job Level Variable2"
+
     steps:
       - name: Print Hello Message in Deploy
-        run: echo "Hello World from Deploy job"
+        run: echo "Hello World from Deploy job" # Print a hello message for the Deploy job
+
+      - name: Print env vars
+        run: |
+          echo "Var1 = ${{ env.VAR1 }}" # Output Job Level Variable1
+          echo "Var2 = ${{ env.VAR2 }}" # Output Job Level Variable2
+          echo "Var3 = $LOCAL_VAR" # Output a super local environment variable
+        env:
+          LOCAL_VAR: "This is Superr local Environment variable" # Define a super local environment variable for this step
+
+      - name: Printing Deployment package
+        run: echo "Deploy package name is ${{ env.DEPLOY_PACKAGE_NAME }}" # Output the deployment package name
+
+      - name: Lets test some packages if they are here 1
+        run: aws --version # Test if AWS CLI is installed and output its version
+
+      - name: Lets test some packages if they are here 2
+        run: zip --version # Test if Zip utility is installed and output its version
