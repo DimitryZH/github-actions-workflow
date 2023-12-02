@@ -9,9 +9,8 @@ This project showcases diverse workflows demonstrating fundamental actions, fost
 ## Tools and Technologies
 
 - **Version Control:** Git, GitHub
-- **Continuous Integration/Continuous Deployment (CI/CD):** GitHub Actions
+- **CI/CD and Workflow Management:** GitHub Actions
 - **Operating System:** Ubuntu
-- **Workflow Management:** GitHub Actions
 - **Scripting:** Bash
 
 ## Diagram
