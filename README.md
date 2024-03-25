@@ -1,4 +1,4 @@
-# GitHub Actions Basics
+# GitHub Actions Workflow
 Status of Last Deployment: <br>
 ![Workflow Status](https://github.com/DimitryZH/github-actions-basics/actions/workflows/my-basics.yml/badge.svg)
 
